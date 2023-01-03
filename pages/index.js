@@ -1,18 +1,31 @@
 import React from "react";
-import product from "../sanity-commerce/schemas/product";
+import { client } from "../lib/client";
+import product from "../sanity-commerce/schemas/product.js";
+import { Product, HeroBanner, FooterBanner } from "../components/index";
 
-const Home = () => {
+const Home = ({ products, bannerData }) => {
   return (
     <>
-      HeroBanner
-      <div>
-        <h2>Best Seller Products</h2>
-        <p>speaker There are many variations passages</p>
+      <HeroBanner heroBanner={bannerData.length && bannerData[0]} />
+
+      <div className="products-heading">
+        <h2>Best Selling Products</h2>
+        <p>Speakers There are many variations passages</p>
       </div>
-      <div>{["Product 1", "Product 2"].map((product) => product)}</div>
-      Footer
+      <div className="products-container">
+        {products?.map((product) => product.name)}
+      </div>
+      <FooterBanner />
     </>
   );
 };
-
+export const getServerSideProps = async () => {
+  const query = '*[_type == "product"]';
+  const products = await client.fetch(query);
+  const bannerQuery = '*[_type == "banner"]';
+  const bannerData = await client.fetch(bannerQuery);
+  return {
+    props: { products, bannerData },
+  };
+};
 export default Home;
