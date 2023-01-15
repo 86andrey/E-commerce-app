@@ -1,6 +1,6 @@
 import React from "react";
 import { client } from "../lib/client";
-import product from "../sanity-commerce/schemas/product.js";
+// import product from "../sanity-commerce/schemas/product.js";
 import { Product, HeroBanner, FooterBanner } from "../components/index";
 
 const Home = ({ products, bannerData }) => {
